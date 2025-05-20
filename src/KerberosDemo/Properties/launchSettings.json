@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5000",
+        "KRB5_CONFIG": "/home/vcap/app/.krb5/krb5.conf",
+        "KRB5_KTNAME": "/home/vcap/app/.krb5/service.keytab",
+        "KRB5CCNAME": "/home/vcap/app/.krb5/krb5cc"
+      },
+      "distributionName": "Ubuntu"
+    }
+  }
+}

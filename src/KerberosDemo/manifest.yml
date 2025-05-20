@@ -1,0 +1,18 @@
+---
+applications:
+- name: KerberosDemo
+  memory: 512M
+  buildpacks: 
+    - <name of or download link to Kerberos buildpack>
+    - dotnet_core_buildpack
+  env:
+    DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+    DOTNET_NOLOGO: "true"
+    KRB_KDC: <Your Kerberos domain controller>
+    KRB_SERVICE_ACCOUNT: <service account username>
+    KRB_PASSWORD: <service account password>
+    ConnectionStrings__SqlServer: <connectionstring>
+
+    # These do not need to be set unless you want to run commands over ssh
+    KRB5_CONFIG: /home/vcap/app/.krb5/krb5.conf
+    KRB5_KTNAME: /home/vcap/app/.krb5/service.keytab

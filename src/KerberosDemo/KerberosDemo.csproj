@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <!--<PublishSingleFile>true</PublishSingleFile>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+
+    <!-- Start transitive dependency overrides -->
+    <PackageReference Include="Azure.Identity" Version="1.12.0" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.61.3" />
+    <!-- End transitive dependency overrides -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="manifest-internal.yml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="manifest.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="JetBrains.Annotations" Version="2024.2.0" />
+  </ItemGroup>
+
+</Project>
