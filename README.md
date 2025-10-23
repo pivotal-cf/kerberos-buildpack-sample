@@ -1,20 +1,26 @@
 # Sample application for Kerberos Buildpack
 
-This application can be used in combination with the [Kerberos Buildpack for Tanzu Platform](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-platform-for-cloud-foundry/10-0/tpcf/kerberos.html) to demonstrate different Integrated Windows Authentication (IWA) usage modes and validate or troubleshoot the configuration of an environment.
+This application can be used in combination with the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-platform-for-cloud-foundry/10-0/tpcf/kerberos.html)
+to demonstrate different Integrated Windows Authentication (IWA) usage modes and validate or troubleshoot the configuration of an environment.
 
 ## Prerequisites
 
-- For the end-user authentication endpoint (`/user`), create SPN for the account under which current service runs (same as `KRB_SERVICE_ACCOUNT`) to `HTTP/<Cloud Foundry route>`. For example, if this sample app is assigned the route <https://kerberos-demo.apps.pcfone.io> then the SPN would be `HTTP/kerberos-demo.apps.pcfone.io`.
+- For the end-user authentication endpoint (`/user`), create SPN for the account under which current service runs (same as `KRB_SERVICE_ACCOUNT`) to `HTTP/<Cloud Foundry route>`.
+    For example, if this sample app is assigned the route <https://kerberos-demo.apps.pcfone.io> then the SPN would be `HTTP/kerberos-demo.apps.pcfone.io`.
 - For the SQL Server endpoint (`/sql`), ensure the following:
   - SQL Server is running under an Active Directory account
   - SQL Server is routable from Tanzu Platform for Cloud Foundry
-  - SQL Server is assigned correct SPN that matches the fully qualified domain name (FQDN) as resolved by apps running on Cloud Foundry. **This may be different from the FQDN on domain joined machines**. To ensure correct SPN, use the following procedure:
+  - SQL Server is assigned correct SPN that matches the fully qualified domain name (FQDN) as resolved by apps running on Cloud Foundry.
+       **This may be different from the FQDN on domain joined machines**. To ensure correct SPN, use the following procedure:
     - SSH into any running app on the Cloud Foundry: `cf ssh <appname>`
     - Find the IP address of the SQL Server host: `nslookup <sqlserver-host>`
     - Do reverse DNS lookup on IP to find the DN: `nslookup <sqlserver-ip>`
     - Create SPN for the account under which SQL server runs in this format: `MSSQLSvc/<FQDN>`
-  - Configure SQL Server to use SSL and install the necessary certificate. See [this article](https://www.mssqltips.com/sqlservertip/3299/how-to-configure-ssl-encryption-in-sql-server/) on the procedure.
-    - **Note**: The certificate must match the routable address from the platform. Since SQL server SNI is not supported for SQL, the certificate must have all server URLs that will be used to access it. Alternatively, disable SSL validation on the client by including `TrustServerCertificate=True` in the connection string.
+  - Configure SQL Server to use SSL and install the necessary certificate.
+       See [this article](https://www.mssqltips.com/sqlservertip/3299/how-to-configure-ssl-encryption-in-sql-server/) on the procedure.
+    - **Note**: The certificate must match the routable address from the platform.
+       Since SQL server SNI is not supported for SQL, the certificate must have all server URLs that will be used to access it.
+       Alternatively, disable SSL validation on the client by including `TrustServerCertificate=True` in the connection string.
 
 ## Deploying
 
