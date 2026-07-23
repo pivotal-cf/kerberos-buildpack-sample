@@ -1,6 +1,6 @@
 # KerberosDemo
 
-This application can be used in combination with the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-platform-for-cloud-foundry/10-0/tpcf/kerberos.html)
+This application can be used in combination with the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/elastic-application-runtime/10-4/eart/kerberos-overview.html)
 to demonstrate different Integrated Windows Authentication (IWA) usage modes and validate or troubleshoot the configuration of an environment.
 
 ## Prerequisites
@@ -9,7 +9,7 @@ to demonstrate different Integrated Windows Authentication (IWA) usage modes and
     For example, if this sample app is assigned the route <https://kerberos-demo.apps.pcfone.io> then the SPN would be `HTTP/kerberos-demo.apps.pcfone.io`.
 - For the SQL Server endpoint (`/sql`), ensure the following:
   - SQL Server is running under an Active Directory account
-  - SQL Server is routable from Tanzu Platform for Cloud Foundry
+  - SQL Server is routable from Tanzu Platform
   - SQL Server is assigned correct SPN that matches the fully qualified domain name (FQDN) as resolved by apps running on Cloud Foundry.
        **This may be different from the FQDN on domain joined machines**. To ensure correct SPN, use the following procedure:
     - SSH into any running app on the Cloud Foundry: `cf ssh <appname>`

@@ -3,10 +3,8 @@
 This application demonstrates using the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-platform-for-cloud-foundry/10-0/tpcf/kerberos.html)
 to access a Kerberos-authenticated SMB/CIFS file share from a Linux Cloud Foundry container.
 
-**NTLM is never used anywhere in this app.** File share authentication is performed entirely
-via Kerberos, using the ticket cache the buildpack's sidecar already maintains. There is no
-native GSSAPI dependency and no extra buildpack required - the Kerberos/SMB integration
-(`KerberosSmb` project) is pure managed code, built on [Kerberos.NET](https://github.com/dotnet/Kerberos.NET)
+File share authentication is performed entirely via Kerberos, using the ticket cache the buildpack's sidecar already maintains.
+The Kerberos/SMB integration (`KerberosSmb` project) is pure managed code, built on [Kerberos.NET](https://github.com/dotnet/Kerberos.NET)
 (the same library the buildpack's own sidecar uses) and [SMBLibrary](https://github.com/TalAloni/SMBLibrary),
 wired together via SMBLibrary's `IAuthenticationClient` extension point.
 
@@ -66,12 +64,3 @@ source during staging, so no local `dotnet publish` step is required.
 - `/smb/download?fileName=` - download a file from the configured SMB share
 - `/smb/upload` - upload a file to the configured SMB share (`multipart/form-data`)
 - `/smb/delete?fileName=` - delete a file from the configured SMB share
-
-## Local development
-
-Use the `WSL` launch profile (`Properties/launchSettings.json`), which mirrors `KerberosDemo`'s
-WSL2 dev loop, pointing `KRB5_CONFIG`/`KRB5_KTNAME`/`KRB5CCNAME` at `/home/vcap/app/.krb5/` and
-adding `SMB_SERVER`/`SMB_SHARE`/`SMB_SPN` for a local test share. The most representative local
-setup is a real lab file server joined to the same AD domain used for `KerberosDemo`'s SQL Server
-testing, since that AD/KDC infrastructure already exists. A Samba container joined to the same
-domain (`realm join`) may also work but has not been verified as part of this sample.

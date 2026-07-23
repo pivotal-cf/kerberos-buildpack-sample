@@ -1,6 +1,6 @@
 # Kerberos Buildpack Samples
 
-Sample applications demonstrating usage of the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-platform-for-cloud-foundry/10-0/tpcf/kerberos.html)
+Sample applications demonstrating usage of the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/elastic-application-runtime/10-4/eart/kerberos-overview.html)
 on Tanzu Platform for Cloud Foundry.
 
 ## Samples
@@ -15,7 +15,7 @@ documentation - see the links above.
 
 ## General setup
 
-Both samples require the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/tanzu-platform-for-cloud-foundry/10-0/tpcf/kerberos.html)
+Both samples require the [Kerberos Buildpack](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/elastic-application-runtime/10-4/eart/kerberos-overview.html)
 to be available to your Cloud Foundry foundation (either as a registered buildpack name or a
 download link), listed ahead of `dotnet_core_buildpack` in each app's `manifest.yml`. Each sample
 is deployed independently via `cf push` from inside its own project directory.
