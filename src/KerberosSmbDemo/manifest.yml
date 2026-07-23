@@ -1,0 +1,21 @@
+---
+applications:
+- name: KerberosSmbDemo
+  memory: 512M
+  path: ..
+  buildpacks:
+    - <name of or download link to Kerberos buildpack>
+    - dotnet_core_buildpack
+  env:
+    DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+    DOTNET_NOLOGO: "true"
+    KRB_KDC: <your Kerberos domain controller>
+    KRB_SERVICE_ACCOUNT: <service account username>@<realm>
+    KRB_PASSWORD: <service account password>
+    SMB_SERVER: <fully qualified file server hostname>
+    SMB_SHARE: <share name>
+    SMB_SPN: cifs/<fully qualified file server hostname>
+
+    # These do not need to be set unless you want to run commands over ssh
+    KRB5_CONFIG: /home/vcap/app/.krb5/krb5.conf
+    KRB5_KTNAME: /home/vcap/app/.krb5/service.keytab

@@ -1,0 +1,4 @@
+KerberosDemo/
+**/bin/
+**/obj/
+**/.vs/

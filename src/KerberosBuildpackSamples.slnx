@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../README.md" />
+  </Folder>
+  <Project Path="KerberosDemo/KerberosDemo.csproj" />
+  <Project Path="KerberosSmb/KerberosSmb.csproj" />
+  <Project Path="KerberosSmbDemo/KerberosSmbDemo.csproj" />
+</Solution>
