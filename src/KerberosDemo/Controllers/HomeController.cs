@@ -46,7 +46,7 @@ public class HomeController : ControllerBase
     }
 
     /// <summary>
-    ///     Test IWA connection to SQL Server
+    /// Test IWA connection to SQL Server
     /// </summary>
     /// <remarks>
     ///     Things needed to get to work on Linux:
@@ -81,8 +81,10 @@ public class HomeController : ControllerBase
     {
         connectionString ??= _configuration.GetConnectionString("SqlServer");
         if (connectionString == null)
+        {
             return StatusCode(500,
                 "Connection string not set. Set 'ConnectionStrings__SqlServer' environment variable");
+        }
 
         var sqlClient = new SqlConnection(connectionString);
         try
@@ -100,18 +102,21 @@ public class HomeController : ControllerBase
     }
 
     /// <summary>
-    ///     Get the contents of a file on disk
+    /// Get the contents of a file on disk
     /// </summary>
     [HttpGet("/getfile")]
     public ActionResult<byte[]> ReadFile(string filePath)
     {
-        if (!System.IO.File.Exists(filePath)) return NotFound($"{filePath} not found");
+        if (!System.IO.File.Exists(filePath))
+        {
+            return NotFound($"{filePath} not found");
+        }
 
         return File(System.IO.File.OpenRead(filePath), "application/octet-stream", Path.GetFileName(filePath));
     }
 
     /// <summary>
-    ///     Test the connection to the Kerberos domain controller
+    /// Test the connection to the Kerberos domain controller
     /// </summary>
     [HttpGet("/testkdc")]
     public async Task<string> TestKDC(string? kdc)
@@ -120,7 +125,9 @@ public class HomeController : ControllerBase
         {
             kdc = Environment.GetEnvironmentVariable("KRB5_KDC");
             if (string.IsNullOrEmpty(kdc))
+            {
                 return "KRB5_KDC env var is not configured";
+            }
         }
 
         using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -194,7 +201,7 @@ public class HomeController : ControllerBase
     }
 
     /// <summary>
-    ///     Get all environment variables available to the demo app
+    /// Get all environment variables available to the demo app
     /// </summary>
     [HttpGet("/env")]
     public Dictionary<string, string?> EnvVars()
@@ -204,7 +211,7 @@ public class HomeController : ControllerBase
     }
 
     /// <summary>
-    ///     Run a command inside the app container
+    /// Run a command inside the app container
     /// </summary>
     [HttpGet("/run")]
     public async Task<string> Run(string command, string? input = null)
@@ -226,20 +233,27 @@ public class HomeController : ControllerBase
             process.StartInfo.Arguments = string.Join(" ", args);
             foreach (var (key, value) in Environment.GetEnvironmentVariables().Cast<DictionaryEntry>()
                          .Select(x => ((string)x.Key, (string?)x.Value)))
+            {
                 process.StartInfo.EnvironmentVariables[key] = value;
+            }
 
             process.Start();
 
             // Do not wait for the child process to exit before reading to the end of its redirected stream.
             // Read the output stream first and then wait.
             if (input != null)
+            {
                 await process.StandardInput.WriteLineAsync(Environment.ExpandEnvironmentVariables(input));
+            }
 
             var output = await process.StandardOutput.ReadToEndAsync();
             var error = await process.StandardError.ReadToEndAsync();
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
             await process.WaitForExitAsync(cts.Token);
-            if (!process.HasExited) process.Kill();
+            if (!process.HasExited)
+            {
+                process.Kill();
+            }
 
             return $"{output}\n{error}";
         }
@@ -250,7 +264,7 @@ public class HomeController : ControllerBase
     }
 
     /// <summary>
-    ///     Use the sidecar to get a ticket for an arbitrary SPN
+    /// Use the sidecar to get a ticket for an arbitrary SPN
     /// </summary>
     [HttpGet("/ticket")]
     public async Task<ActionResult<string>> GetTicket(string? spn)
@@ -259,7 +273,7 @@ public class HomeController : ControllerBase
     }
 
     /// <summary>
-    ///     Authenticates incoming caller via SPNEGO (Kerberos ticket via HTTP header)
+    /// Authenticates incoming caller via SPNEGO (Kerberos ticket via HTTP header)
     /// </summary>
     /// <param name="forceAuth">Force the user to authenticate</param>
     [HttpGet("/user")]
@@ -268,11 +282,16 @@ public class HomeController : ControllerBase
         var identity = (ClaimsIdentity)User.Identity!;
         if (!identity.IsAuthenticated)
         {
-            if (forceAuth) return Challenge();
+            if (forceAuth)
+            {
+                return Challenge();
+            }
 
             if (!Request.Headers.TryGetValue("Authorization", out _))
+            {
                 return base.Unauthorized(
                     "Authorization header not included. Call with '?forceAuth=true' to force SPNEGO exchange by the browser");
+            }
 
             return Unauthorized("Not logged in.");
         }
@@ -280,7 +299,7 @@ public class HomeController : ControllerBase
         var user = new UserDetails
         {
             Name = identity.Name!,
-            Claims = identity.Claims.Select(x => new ClaimSummary { Type = x.Type, Value = x.Value }).ToList()
+            Claims = [.. identity.Claims.Select(x => new ClaimSummary { Type = x.Type, Value = x.Value })]
         };
         return user;
     }
