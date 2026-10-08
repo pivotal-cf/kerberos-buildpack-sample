@@ -123,10 +123,10 @@ public class HomeController : ControllerBase
     {
         if (string.IsNullOrEmpty(kdc))
         {
-            kdc = Environment.GetEnvironmentVariable("KRB5_KDC");
+            kdc = Environment.GetEnvironmentVariable("KRB_KDC");
             if (string.IsNullOrEmpty(kdc))
             {
-                return "KRB5_KDC env var is not configured";
+                return "KRB_KDC env var is not configured";
             }
         }
 
