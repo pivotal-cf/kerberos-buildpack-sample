@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Kerberos.NET" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" />
     <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="SMBLibrary" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" />
   </ItemGroup>
 
 </Project>
